@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: REST API VK
+  description: |-
+    REST API for VK
+  version: 1.0.11
+servers:
+  - url: https://somevkaddres.com/api/v1
+tags:
+  - name: Friends
+    description: Actions with user friend
+paths:
+  /user/{user_id}/friend:
+    get:
+      tags:
+        - Friends
+      description: 'Get user friends'
+      parameters:
+        - name: user_id
+          in: path
+          description: 'User ID'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'      
+        '400':
+          description: 'Incorrect userID supplied'
+        '403':
+          description: 'Authorization required'
+        '404':
+          description: 'User not found'
+  /user/{user_id}/friend/{friend_id}:
+    post:
+      tags:
+        - Friends
+      description: 'Add new friends to user'
+      parameters:
+        - name: user_id
+          in: path
+          description: 'User ID'
+          required: true
+          schema:
+            type: integer        
+      responses:
+        '200':
+          description: 'Successful operation'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'      
+        '400':
+          description: 'Incorrect userID/friendId supplied'
+        '403':
+          description: 'Authorization required'
+        '404':
+          description: 'User not found'
+    delete: 
+      tags:
+        - Friends
+      description: 'Delete friends from user'
+      parameters:
+        - name: user_id
+          in: path
+          description: 'User ID'
+          required: true
+          schema:
+            type: integer  
+        - name: friend_id    
+          in: path
+          description: 'Friend ID'
+          required: true
+          schema:
+            type: integer   
+      responses:
+        '200':
+          description: 'Successful operation'  
+        '400':
+          description: 'Incorrect userID/friendId supplied'
+        '403':
+          description: 'Authorization required'
+        '404':
+          description: 'User or friend not found'
+components:
+  schemas:
+    Friend:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        firstName:
+          type: string
+          format: int64
+          example: 'Ivan'
+        lastName:
+          type: string
+          format: int32
+          example: 'Ivanov'
+        birthDate:
+          type: string
+          format: date
